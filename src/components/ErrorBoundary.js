@@ -11,7 +11,7 @@ export default class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('Aegis Guardian Error Boundary caught:', error, errorInfo);
+    console.error('Guardai Error Boundary caught:', error, errorInfo);
   }
 
   handleReset = () => {
@@ -39,7 +39,7 @@ export default class ErrorBoundary extends React.Component {
             Aegis Reset
           </h2>
           <p style={{ color: '#8888aa', marginBottom: '24px', fontSize: '14px', lineHeight: '1.5' }}>
-            Aegis Guardian detected an internal issue and reset to a safe state.
+            Guardai detected an internal issue and reset to a safe state.
             <br />No data was lost.
           </p>
           <button
