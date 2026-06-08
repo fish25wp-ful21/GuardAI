@@ -1,4 +1,4 @@
-export const APP_NAME = 'Aegis Guardian AI';
+export const APP_NAME = 'GuardAI';
 
 export const SECURITY_STATUS = {
   PROTECTED: 'protected',
