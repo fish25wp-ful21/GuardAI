@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    title: "Aegis Guardian AI",
+    title: "GuardAI",
     subtitle: "On-Device Mobile Security",
     authFailed: "Pi authentication failed. Please try again.",
     loginBtn: "Login with Pi Network",
@@ -15,7 +15,7 @@ export const translations = {
     selfHealingDesc: "Fault-isolated Error Boundaries guaranteeing graceful recovery."
   },
   id: {
-    title: "Aegis Guardian AI",
+    title: "GuardAI",
     subtitle: "Keamanan Seluler Di Dalam Perangkat",
     authFailed: "Autentikasi Pi gagal. Silakan coba lagi.",
     loginBtn: "Masuk dengan Pi Network",
