@@ -86,7 +86,7 @@ export default function PiLogin() {
           textAlign: 'center',
           marginBottom: '8px',
         }}>
-          AEGIS GUARDIAN AI
+          GUARD-AI-FLAME.VERCEL.APP 
         </h1>
         <p style={{ color: '#8888aa', fontSize: '14px', textAlign: 'center', marginBottom: '32px' }}>
           On-device security. Total privacy.
