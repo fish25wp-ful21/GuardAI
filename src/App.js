@@ -1,79 +1,77 @@
-import React, { useMemo, useCallback, lazy, Suspense } from 'react';
-import { AppProvider, useAppContext } from './context/AppContext';
-import ErrorBoundary from './components/ErrorBoundary';
-import PiLogin from './components/PiLogin';
-import { NAV_TABS } from './utils/constants';
+import React, { useState } from 'react';
+import { translations } from './utils/languages';
+import './App.css'; // Sesuaikan dengan file CSS Anda
 
-const Dashboard = lazy(() => import('./modules/dashboard/index'));
-const Defence = lazy(() => import('./modules/defence/index'));
-const Theft = lazy(() => import('./modules/theft/index'));
-const FileSweeper = lazy(() => import('./modules/fileSweeper/index'));
-const Education = lazy(() => import('./modules/education/index'));
+function App() {
+  // Secara default menggunakan bahasa Indonesia ('id')
+  const [lang, setLang] = useState('id');
+  const t = translations[lang];
 
-function LoadingFallback() {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#00ff88' }}>
-      <span className="mono">Loading...</span>
-    </div>
-  );
-}
-
-function AppContent() {
-  const { state, setActiveTab, resetState } = useAppContext();
-
-  const handleReset = useCallback(() => {
-    resetState();
-  }, [resetState]);
-
-  const moduleMap = useMemo(() => ({
-    dashboard: Dashboard,
-    defence: Defence,
-    theft: Theft,
-    sweeper: FileSweeper,
-    education: Education,
-  }), []);
-
-  const ActiveModule = moduleMap[state.activeTab] || Dashboard;
-
-  if (!state.isAuthenticated) {
-    return <PiLogin />;
-  }
+  // Simulasi status error autentikasi seperti di layar
+  const [authError, setAuthError] = useState(true); 
 
   return (
     <div className="app-container">
-      <ErrorBoundary onReset={handleReset}>
-        <div className="scrollable-content">
-          <Suspense fallback={<LoadingFallback />}>
-            {state.isLocked ? (
-              <Theft />
-            ) : (
-              <ActiveModule />
-            )}
-          </Suspense>
-        </div>
-      </ErrorBoundary>
+      {/* Pengalih Bahasa di Pojok Atas */}
+      <div className="language-selector" style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '5px' }}>
+        <button 
+          onClick={() => setLang('id')} 
+          style={{ fontWeight: lang === 'id' ? 'bold' : 'normal', padding: '5px 10px', cursor: 'pointer' }}
+        >
+          ID
+        </button>
+        <button 
+          onClick={() => setLang('en')} 
+          style={{ fontWeight: lang === 'en' ? 'bold' : 'normal', padding: '5px 10px', cursor: 'pointer' }}
+        >
+          EN
+        </button>
+      </div>
 
-      <nav className="bottom-nav">
-        {NAV_TABS.map((tab) => (
-          <button
-            key={tab.id}
-            className={`nav-item ${state.activeTab === tab.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            <span className="nav-icon">{tab.icon}</span>
-            <span>{tab.label}</span>
-          </button>
-        ))}
-      </nav>
+      {/* Header Aplikasi */}
+      <header className="app-header" style={{ textAlign: 'center', marginTop: '40px' }}>
+        <h1>{t.title}</h1>
+        <p className="subtitle">{t.subtitle}</p>
+      </header>
+
+      {/* Kotak Error Autentikasi */}
+      {authError && (
+        <div className="error-box" style={{ color: 'red', backgroundColor: '#ffe6e6', padding: '10px', borderRadius: '5px', margin: '20px auto', maxWidth: '300px', textAlign: 'center' }}>
+          {t.authFailed}
+        </div>
+      )}
+
+      {/* Tombol Aksi Utama */}
+      <div className="action-buttons" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', margin: '20px 0' }}>
+        <button className="btn-pi" style={{ padding: '12px 24px', backgroundColor: '#6200ee', color: '#fff', border: 'none', borderRadius: '25px', width: '280px', fontWeight: 'bold' }}>
+          {t.loginBtn}
+        </button>
+        <button className="btn-offline" style={{ padding: '12px 24px', backgroundColor: '#e0e0e0', color: '#333', border: 'none', borderRadius: '25px', width: '280px' }}>
+          {t.offlineBtn}
+        </button>
+      </div>
+
+      {/* Daftar Fitur/Pilar Utama */}
+      <section className="features-list" style={{ maxWidth: '500px', margin: '0 auto', padding: '0 20px' }}>
+        <div className="feature-item" style={{ marginBottom: '15px' }}>
+          <h3>1. {t.zeroDep}</h3>
+          <p>{t.zeroDepDesc}</p>
+        </div>
+        <div className="feature-item" style={{ marginBottom: '15px' }}>
+          <h3>2. {t.battery}</h3>
+          <p>{t.batteryDesc}</p>
+        </div>
+        <div className="feature-item" style={{ marginBottom: '15px' }}>
+          <h3>3. {t.crypto}</h3>
+          <p>{t.cryptoDesc}</p>
+        </div>
+        <div className="feature-item" style={{ marginBottom: '15px' }}>
+          <h3>4. {t.selfHealing}</h3>
+          <p>{t.selfHealingDesc}</p>
+        </div>
+      </section>
     </div>
   );
 }
 
-export default function App() {
-  return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
-  );
-}
-
+export default App;
