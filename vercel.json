@@ -1,27 +1,43 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/pi-verification.html",
-      "destination": "/pi-verification.html"
-    },
-    {
-      "source": "/.well-known/pi-verification.txt",
-      "destination": "/.well-known/pi-verification.txt"
-    },
-    {
-      "source": "/validation-key.txt",
-      "destination": "/validation-key.txt"
-    },
-    {
-      "source": "/pi.txt",
-      "destination": "/pi.txt"
-    },
+  "public": true,
+  "headers": [
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "index, follow"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.txt$",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/validation-key.html",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/html"
+        }
+      ]
     }
-  ]
+  ],
+  "cleanUrls": false,
+  "trailingSlash": false
 }
